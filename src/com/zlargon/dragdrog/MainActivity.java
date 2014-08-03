@@ -21,16 +21,20 @@ public class MainActivity extends Activity {
 
             switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    imageView.setColorFilter(Color.RED);
+                    imageView.setColorFilter(Color.argb(100, 255, 0, 0)); // Red
                     break;
 
                 case DragEvent.ACTION_DRAG_ENTERED:
-                    imageView.setColorFilter(Color.GREEN);
+                    imageView.setColorFilter(Color.argb(100, 0, 255, 0)); // Green
                     break;
 
                 case DragEvent.ACTION_DRAG_EXITED:
-                    imageView.setColorFilter(Color.BLUE);
+                    imageView.setColorFilter(Color.argb(100, 0, 0, 255)); // Blue
                     mPositionTextView.setText("EXIT");
+                    break;
+
+                case DragEvent.ACTION_DROP:
+                    mPositionTextView.setText("Drop");
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED:
