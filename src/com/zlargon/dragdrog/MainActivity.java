@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
     private TextView mPositionTextView;
+    private EditText mEditText;
+    private TextView mTextView;
 
     private View.OnDragListener mOnDragListener = new View.OnDragListener() {
         @Override
@@ -35,6 +38,11 @@ public class MainActivity extends Activity {
 
                 case DragEvent.ACTION_DROP:
                     mPositionTextView.setText("Drop");
+
+                    ClipData.Item item = event.getClipData().getItemAt(0);
+                    CharSequence dragData = item.getText();
+                    mTextView.setText(dragData.toString());
+                    mTextView.invalidate();
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -65,13 +73,16 @@ public class MainActivity extends Activity {
 
         // Position Text View
         mPositionTextView = (TextView) findViewById(R.id.textView_position);
+        mEditText = (EditText) findViewById(R.id.editText1);
+        mTextView = (TextView) findViewById(R.id.textView1);
 
         // ImageView1 : long click
         ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
         imageView1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipData dragData = null;
+
+                ClipData dragData = ClipData.newPlainText("NoData", mEditText.getText());
                 MyDragShadowBuilder myDragShadowBuilder = new MyDragShadowBuilder(v);
                 v.startDrag(dragData, myDragShadowBuilder, null, 0);
                 return true;
