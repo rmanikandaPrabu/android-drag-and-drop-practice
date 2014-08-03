@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
+
+    private TextView mPositionTextView;
 
     private View.OnDragListener mOnDragListener = new View.OnDragListener() {
         @Override
@@ -27,11 +30,24 @@ public class MainActivity extends Activity {
 
                 case DragEvent.ACTION_DRAG_EXITED:
                     imageView.setColorFilter(Color.BLUE);
+                    mPositionTextView.setText("EXIT");
                     break;
 
                 case DragEvent.ACTION_DRAG_ENDED:
                     imageView.setColorFilter(null);
                     break;
+
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    float x = event.getX();
+                    float y = event.getY();
+
+                    String coordinate = String.format("[%.1f, %.1f]", x, y);
+                    mPositionTextView.setText(coordinate);
+                    break;
+            }
+
+            if (v.getId() == R.id.imageView2) {
+                return false;
             }
 
             return true; // Change to Green
@@ -42,6 +58,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Position Text View
+        mPositionTextView = (TextView) findViewById(R.id.textView_position);
 
         // ImageView1 : long click
         ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
@@ -62,5 +81,9 @@ public class MainActivity extends Activity {
         // ImageView 3 : drag
         ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
         imageView3.setOnDragListener(mOnDragListener);
+
+        // ImageView 4 : drag
+        ImageView imageView4 = (ImageView) findViewById(R.id.imageView4);
+        imageView4.setOnDragListener(mOnDragListener);
     }
 }
