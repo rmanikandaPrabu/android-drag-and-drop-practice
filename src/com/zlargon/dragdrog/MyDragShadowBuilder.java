@@ -19,7 +19,7 @@ public class MyDragShadowBuilder extends DragShadowBuilder {
 
         // set shadow
         shadowSize.set(width, height);
-        shadowTouchPoint.set(width, height);
+        shadowTouchPoint.set(width/2, height/2);
     }
 
     @Override
